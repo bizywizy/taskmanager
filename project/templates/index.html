@@ -1,0 +1,56 @@
+{% load static from staticfiles %}
+<!DOCTYPE html>
+<html ng-app="taskManager">
+<head>
+	<meta charset="UTF-8">
+	<title>Task manager</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+</head>
+<body ng-controller="taskController">
+	<div class="container">
+		<div class="page-header">
+			<h1>Task manager</h1>
+		</div>
+		<table class="table table-striped">
+			<thead>
+				<td>Task</td>
+				<td>Actions</td>
+			</thead>
+			<tbody>
+            {% verbatim %}
+				<tr ng-repeat="task in tasks">
+					<td>
+						<span ng-hide="editing">{{ task.text }}</span>
+						<div class="form-inline" ng-show="editing">
+				        	<input class="form-control" ng-model="edited_text"  ng-value="task.text" />
+							<button class="btn btn-default" ng-click="edit(task, edited_text)">Apply</button>
+						</div>
+					</td>
+					<td>
+						<button class="btn btn-default" ng-click="editing = !editing">
+							Edit
+						</button>
+						<button  class="btn btn-default" ng-click="delete(task)">
+							Remove
+						</button>
+					</td>
+				</tr>
+            {% endverbatim %}
+				<tr>
+					<td>
+				        <input class="form-control" ng-model="text" placeholder="Task message" />
+					</td>
+					<td>
+						<button class="btn btn-default" ng-click="add(text)">Add</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script type="text/javascript">
+angular.module("taskManager", []);
+</script>
+<script src="{% static 'js/controllers/taskController.js' %}"></script>
+</html>
